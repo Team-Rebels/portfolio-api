@@ -7,7 +7,7 @@ const userSchema = Joi.object({
     otherName:Joi.string(),
     email:Joi.string().email().required(),
     password:Joi.string().min().required(),
-    confirmedPassword:Joi.ref('password')
+    confirmedPassword:Joi.ref('password'),
     userName: Joi.string(),
     termsAndConditions: Joi.boolean(),
 
