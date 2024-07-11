@@ -1,6 +1,6 @@
 import Joi, { required } from "joi";
 
-const educationSchema = Joi.object({
+export const educationSchema = Joi.object({
     education:{
     schoolName:Joi.string().required(),
     program:Joi.string(),
