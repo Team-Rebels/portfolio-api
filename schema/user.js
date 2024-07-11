@@ -5,8 +5,9 @@ import joi from "joi";
     lastName:joi.string().required(),
     otherName:joi.string(),
     email:joi.string().email().required(),
-    password:joi.string().min(3).required(),
+    password:joi.string().min(5).required(),
     confirmedPassword:joi.ref('password'),
     userName: joi.string(),
     termsAndConditions: joi.boolean(),
 })
+.with ('password','confirmedPassword')
