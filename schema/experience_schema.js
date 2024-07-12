@@ -1,6 +1,6 @@
 import joi from "joi";
 
-const experienceSchema = joi.object({
+export const experienceSchema = joi.object({
     experience:{
         company: joi.string().required,
         roles: joi.string().required,

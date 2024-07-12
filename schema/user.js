@@ -1,18 +1,13 @@
-import Joi, { required } from "joi";
+import joi from "joi";
 
-const userSchema = Joi.object({
-    user:{
-    firstName:Joi.string().required(),
-    lastName:Joi.string().required(),
-    otherName:Joi.string(),
-    email:Joi.string().email().required(),
-    password:Joi.string().min().required(),
-    confirmedPassword:Joi.ref('password'),
-    userName: Joi.string(),
-    termsAndConditions: Joi.boolean(),
-
-
-
-
-}
+ export const userSchema = joi.object({
+    firstName:joi.string().required(),
+    lastName:joi.string().required(),
+    otherName:joi.string(),
+    email:joi.string().email().required(),
+    password:joi.string().min(5).required(),
+    confirmedPassword:joi.ref('password'),
+    userName: joi.string(),
+    termsAndConditions: joi.boolean(),
 })
+.with ('password','confirmedPassword')
