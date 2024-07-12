@@ -11,31 +11,37 @@ export const addUserProfile = async (req, res, next) => {
         if (error) {
             return res.status(400).send(error.details[0].message)
         }
-        const profile = await UserProfile.create(value)
+        const userProfile = await UserProfile.create(value)
         //after, find the user with the id that you passed when creating the education 
         const user = await User.findById(value.user);
         if (!user) {
             return res.status(404).send('User not found');
         }
         //if you find the user, push the userprofile id you just created inside
-        user.profile.push(profile._id);
+        user.userProfile.push(userProfile._id);
 
         //and save the user now with the educationId
         await user.save();
 
         //return the education
-        res.status(201).json({ profile })
+        res.status(201).json({ userProfile})
         
     } catch (error) {
         next(error)
     }
 }
 
-//Get All profiles
-export const getAllProfile = async (req, res) => {
+//Get a profiles
+export const getProfile = async (req, res) => {
     try {
-        const profile = await UserProfile.find()
-        if (profile.length = 0) {
+        const user = await User.findById(req.parms.id)
+        .populate('userProfile');
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const profile = await UserProfile.find({ user: user._id });
+        if (!profile) {
             return res.status(404).send('No profile found')
         }
         res.status(200).json(profile)

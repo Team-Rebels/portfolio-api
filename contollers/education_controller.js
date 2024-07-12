@@ -50,15 +50,41 @@ export const getAllUserEducation = async (req, res, next) => {
     }
 
 }
+//Get a User Education
+export const getEducation = async (req, res) => {
+    try {
+        const user = await User.findById(req.parms.id)
+        .populate('education');
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const Educations = await Education.find({ user: user._id });
+        if (!Educations) {
+            return res.status(404).send('No Education found')
+        }
+        res.status(200).json(profile)
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
 
 
 //update  Education
 export const UpdateEducation = async (req, res, next) => {
     try {
-        const userId = req.params.id
+
+        const user = await User.findById(req.params.id)
+        .populate('education');
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
         // const educationId = req.params.id
-        const updatedData = Education.findByIdAndUpdate({user:userId}, req.body, {new:true})
-        // res.status(200).json(updatedData)
+        const updatedData = await Education.findByIdAndUpdate({ user: user.id }, req.body, {new:true})
+        if (!Educations) {
+            return res.status(404).send('No Education found')
+        }
+        res.status(200).json(updatedData)
     } catch (error) {
         next(error)
     }

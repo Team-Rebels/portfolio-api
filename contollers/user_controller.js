@@ -23,7 +23,7 @@ export const signup = async (req, res, next) => {
          res.status(201).json(value)
 
          //create a new user
-         await UserModel.create(value)
+         await User.create(value)
          res.status(201).json('User created successfully')
       }
    } catch (error) {

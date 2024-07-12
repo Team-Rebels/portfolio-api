@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addEducation, getAllUserEducation, UpdateEducation } from "../contollers/education_model.js";
+import { addEducation, getAllUserEducation, getEducation, UpdateEducation } from "../contollers/education_controller.js";
 
 
  export const educationRouter = Router();
@@ -7,6 +7,9 @@ import { addEducation, getAllUserEducation, UpdateEducation } from "../contoller
 educationRouter.post('/users/education', addEducation);
 
 educationRouter.get('/users/education/:id', getAllUserEducation)
+
+educationRouter.get('/users/education/:id', getEducation)
+
 
 educationRouter.patch('/users/education/:id', UpdateEducation)
 
