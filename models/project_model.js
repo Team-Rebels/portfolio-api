@@ -4,7 +4,7 @@ import { toJSON } from "@reis/mongoose-to-json";
 
 
 
-const projectSchema = new Schema({
+export const projectSchema = new Schema({
     projectName: { type: String },
     description: { type: String },
     contibutors: { type: String },

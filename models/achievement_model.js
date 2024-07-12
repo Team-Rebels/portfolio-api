@@ -3,7 +3,7 @@ import { toJSON } from "@reis/mongoose-to-json";
 
 
 
-const achievementSchema = new Schema({
+export const achievementSchema = new Schema({
         award: { type: String },
         description: { type: String },
         date: { type: String },

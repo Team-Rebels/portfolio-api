@@ -1,7 +1,9 @@
 import joi from "joi";
 
+
 export const profileSchema = joi.object({
    
+
         profilePicture: joi.string().required,
         location: joi.string().required,
         maritalStatus: joi.string().valid('single', 'married', 'prefer-not-to-say'),
