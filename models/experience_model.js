@@ -2,7 +2,7 @@
 import { Schema, model } from "mongoose";
 import { toJSON } from "@reis/mongoose-to-json";
 
-const experienceSchema = new Schema({
+export const experienceSchema = new Schema({
     companyName: { type: String },
     role: { type: String },
     skills: { type: String },

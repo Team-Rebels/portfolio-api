@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { toJSON } from "@reis/mongoose-to-json";
 
 
-const volunteeringSchema = new Schema({
+export const volunteeringSchema = new Schema({
     organization: { type: String },
     description: { types: String },
     skills: { type: String },
