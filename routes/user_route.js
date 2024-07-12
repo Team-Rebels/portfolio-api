@@ -1,4 +1,4 @@
-import { login, logout, profile, signup } from "../contollers/user_controller.js";
+import { login, logout, profile, signup } from "../controllers/user_controller.js";
 import { Router } from "express";
 import { checkUserSession } from "../middlewares/auth.js";
 

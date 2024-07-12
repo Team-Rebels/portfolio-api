@@ -7,6 +7,11 @@ export const addProject = async (req, res, next) => {
     try {
         const {error, value} = projectSchema.validate(req.body)
         if(error) return res.status (400).send(error.details[0].message)
+
+
+
+
+            
         const project = await ProjectModel.create(req.body)
         res.status(201).json(project)
         

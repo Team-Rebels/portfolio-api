@@ -79,9 +79,9 @@ export const UpdateEducation = async (req, res, next) => {
         if (!user) {
             return res.status(404).send('User not found');
         }
-        // const educationId = req.params.id
-        const updatedData = await Education.findByIdAndUpdate({ user: user.id }, req.body, {new:true})
-        if (!Educations) {
+        const educationId = req.params.educationId
+        const updatedData = await Education.findByIdAndUpdate(educationId, req.body, {new:true})
+        if (!Education) {
             return res.status(404).send('No Education found')
         }
         res.status(200).json(updatedData)

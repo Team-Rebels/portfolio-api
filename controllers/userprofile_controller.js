@@ -11,14 +11,15 @@ export const addUserProfile = async (req, res, next) => {
         if (error) {
             return res.status(400).send(error.details[0].message)
         }
-        const userProfile = await UserProfile.create(value)
+        
         //after, find the user with the id that you passed when creating the education 
         const user = await User.findById(value.user);
         if (!user) {
             return res.status(404).send('User not found');
         }
+        const userProfile = await UserProfile.create(value)
         //if you find the user, push the userprofile id you just created inside
-        user.userProfile.push(userProfile._id);
+        user.userProfile.userProfile._id;
 
         //and save the user now with the educationId
         await user.save();
