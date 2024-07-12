@@ -14,4 +14,4 @@ const experienceSchema = new Schema({
 })
 
 experienceSchema.plugin(toJSON)
-export const ExperienceModel = model('Experience', experienceSchema)
+export const Experience = model('Experience', experienceSchema)
