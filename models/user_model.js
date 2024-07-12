@@ -4,7 +4,7 @@ import { toJSON } from "@reis/mongoose-to-json";
 
 
 
-const userSchema = new Schema({
+export const userSchema = new Schema({
 
     firstName: { type: String },
     lastName: { type: String, },

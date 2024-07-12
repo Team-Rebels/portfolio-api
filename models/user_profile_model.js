@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { toJSON } from "@reis/mongoose-to-json";
 
 
-const userProfilSchema = new Schema({
+export const userProfilSchema = new Schema({
 
     profilePicture: { type: String },
     location: { type: String },

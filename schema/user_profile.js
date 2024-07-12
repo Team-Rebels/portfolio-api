@@ -1,6 +1,6 @@
 import joi from "joi";
 
-const userSchema = joi.object({
+export const userProfileSchema = joi.object({
     userProfile:{
         profilePicture: joi.string().required,
         location: joi.string().required,
