@@ -2,7 +2,7 @@
 import joi from "joi";
 
 const volunteeringSchema = joi.object({
-    volunteer:{
+    
         organization: joi.string().required,
         description:joi.string().required,
         skills: joi.string(),
@@ -12,7 +12,7 @@ const volunteeringSchema = joi.object({
         endDate: joi.string(),
         projectName:joi.string
      
-    }
+    
 })
 
 

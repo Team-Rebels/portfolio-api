@@ -23,8 +23,9 @@ export const signup = async (req, res, next) => {
          res.status(201).json(value)
 
          //create a new user
-         await User.create(value)
-         res.status(201).json('User created successfully')
+        const user = await User.create(value)
+        //Generate a session for the user
+        req.session.user = { id: user.id }
       }
    } catch (error) {
       next(error)
@@ -62,23 +63,7 @@ export const login = async (req, res, next) => {
       next(error)
    }
 }
-
-//Get a user profile
-export const profile = async (req, res, next) => {
-   try {
-     //Find a User by Id 
-     const user = await User
-       .findById(req.session.user.id)
-       .select('-password');
-     //Return response
-     res.status(200).json(user);
-   } catch (error) {
-    next(error)
-   }
-  
-  };
-
-  //Users Logout
+//Users Logout
   export const logout = async (req, res, next) => {
    try {
      //Destroy user session
@@ -89,8 +74,51 @@ export const profile = async (req, res, next) => {
      next(error)
    }
   };
+
+
+
+export const profile = async (req, res) => {
+
+ try {
+      
+     const userName = req.params.userName
+  
+     //get user based on the user id
+     //use the select to exclude the password
+     //use populate to populate the education
+     const userDetails = await User.find({userName})
+     .select('-password')
+     .populate('education')
+     .populate('userProfile')
+   //   .populate('experiences')
+      .populate('skills')
+   //   .populate('volunteering')
+     .populate('achievements')
+     
+        
+     return res.status(201).json({user: userDetails})
+ } catch (error) {
+   return res.status(500).json({ message: 'Server error', error: error.message });
+ }
+   
+};
+  
  
 
+//Get All Users
 
+export const getAllUsers = async (req, res, next) => {
+   try {
+       //Get query params
+       const {
+           filter = "{}"} = req.query;
+       //Get all users from Database
+       const allUsers = await User.find(JSON.parse(filter))
+           
+       //Return respons
+       res.status(200).json(allUsers)
+   } catch (error) {
 
-
+       next(error)
+   }
+}

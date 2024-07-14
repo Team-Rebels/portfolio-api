@@ -3,8 +3,10 @@ import { dbConnection } from "./config/db.js";
 import { userRouter } from "./routes/user_route.js";
 import { educationRouter } from "./routes/education_route.js";
 import { userProfileRouter } from "./routes/userprofile_route.js";
+import AchievementRouter from "./routes/achievement_routes.js";
 import session from 'express-session'
 import MongoStore from "connect-mongo";
+import skillRouter from "./routes/skills_route.js";
 
 
 
@@ -35,6 +37,12 @@ app.use(session({
 app.use('/api/v1', userRouter)
 app.use('/api/v1', educationRouter)
 app.use('/api/v1', userProfileRouter)
+app.use('/api/v1', AchievementRouter)
+app.use('/api/v1', skillRouter)
+
+
+
+
 
 
 
