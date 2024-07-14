@@ -77,7 +77,7 @@ export const login = async (req, res, next) => {
 
 
 
-export const profile = async (req, res) => {
+export const profile = async (req, res, next) => {
 
  try {
       
@@ -90,7 +90,7 @@ export const profile = async (req, res) => {
      .select('-password')
      .populate('education')
      .populate('userProfile')
-   //   .populate('experiences')
+     .populate('experiences')
       .populate('skills')
    //   .populate('volunteering')
      .populate('achievements')
@@ -98,7 +98,7 @@ export const profile = async (req, res) => {
         
      return res.status(201).json({user: userDetails})
  } catch (error) {
-   return res.status(500).json({ message: 'Server error', error: error.message });
+   next(error);
  }
    
 };

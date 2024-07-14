@@ -10,7 +10,7 @@ export const userProfilSchema = new Schema({
     bio: { type: String },
     contact: { type: String },
     resume: { type: String },
-    languages: [{ type: String }],
+    // languages: [{ type: String }],
     githublink: { type: String },
     linkedinLink: { type: String },
     twitterLink: { type: String },

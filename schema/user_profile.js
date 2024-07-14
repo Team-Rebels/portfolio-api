@@ -8,7 +8,7 @@ export const profileSchema = joi.object({
         bio: joi.string().required(),
         contact: joi.string().required(),
         resume: joi.string(),
-        languages: joi.array().items(joi.string()),
+        // languages: joi.array().items(joi.string()),
         githublink: joi.string(),
         linkedinLink: joi.string(),
         twitterLink: joi.string(),

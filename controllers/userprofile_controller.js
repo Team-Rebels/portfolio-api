@@ -8,12 +8,12 @@ import { User } from "../models/user_model.js";
 export const addUserProfile = async (req, res, next) => {
 
     try {
-
-        console.log("yess Boss")
+        
         const { error, value } = profileSchema.validate(req.body)
         if (error) {
             return res.status(400).send(error.details[0].message)
         }
+        console.log("yess Boss")
 
         //after, find the user with the id that you passed when creating the education 
 
@@ -25,7 +25,7 @@ export const addUserProfile = async (req, res, next) => {
         const profile = await UserProfile.create({
             ...value,
             user: userSessionId,
-            profilePicture: req.file.filename,
+            // profilePicture: req.file.filename,
         
         })
 

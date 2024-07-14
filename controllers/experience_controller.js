@@ -1,22 +1,42 @@
-import { ExperienceModel } from "../models/experience_model.js";
-import { experienceSchema } from "../models/experience_model.js";
+import { Experience } from "../models/experience_model.js";
+import { experienceSchema } from "../schema/experience_schema.js";
+import { User } from "../models/user_model.js";
 
 
-//post project
+
+//post experience       
 export const addExperience = async (req, res, next) => {
- 
+
+    console.log('yess Boss')
     try {
-        const {error, value} = experienceSchema.validate(req.body)
-        if(error) return res.status (400).send(error.details[0].message)
-        const experience = await ExperienceModel.create(req.body)
-        res.status(201).json(experience)
-        
+        const { error, value } = experienceSchema.validate(req.body)
+        if (error) {
+            return res.status(400).send(error.details[0].message)
+        }
+         //after, find the user with the id that you passed when creating the education
+        const userSessionId = req.session.user.id
+
+        const user = await User.findById(userSessionId);
+        if (!user) {
+          return res.status(404).send("User not found");
+        }
+        //create the suer
+        const experience = await Experience.create({ ...value, user: userSessionId })
+        //if you find the user, push the education id you just created inside
+        user.experiences.push(experience._id);
+
+        //and save the user now with the educationId
+        await user.save();
+
+        //return the education
+        res.status(201).json({ experience })
         
     } catch (error) {
         next(error)
-        
     }
 }
+
+
 
 
 //get all experience controller
