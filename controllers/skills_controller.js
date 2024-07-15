@@ -14,7 +14,6 @@ export const addSkills = async (req, res, next) => {
 
         //after, find the user with the id that you passed when creating the education
         const userSessionId = req.session.user.id
-
         const user = await User.findById(userSessionId);
         if (!user) {
             return res.status(404).send("User not found");

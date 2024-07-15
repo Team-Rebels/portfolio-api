@@ -46,19 +46,20 @@ export const login = async (req, res, next) => {
       });
       if (!user) {
          res.status(401).json('User Not Found');
-      } else {
-         //verify their password
-         const correctPassword = bcrypt.compareSync(password, user.password);
-         if (!correctPassword) {
-            res.status(401).json('Invalid credential');
-         } else {
+      }
+       //else {
+      //    //verify their password
+      //    const correctPassword = bcrypt.compareSync(password, user.password);
+      //    if (!correctPassword) {
+      //       res.status(401).json('Invalid credential');
+      //    } 
+   else {
             //Generate a session for the user
             req.session.user = { id: user.id }
             //Return a response
             res.status(200).json('User Logged in Successfully');
          }
-
-      }
+      
    } catch (error) {
       next(error)
    }
@@ -81,19 +82,39 @@ export const profile = async (req, res, next) => {
 
    try {
 
-      const userName = req.params.userName
+      const userName = req.params.userName;
+      const options = { sort: { startDate: -1 } }
 
-      //get user based on the user id
-      //use the select to exclude the password
-      //use populate to populate the education
+    
       const userDetails = await User.find({ userName })
          .select('-password')
-         .populate('education')
-         .populate('userProfile')
-         .populate('experiences')
-         .populate('skills')
-         .populate('volunteering')
-         .populate('achievements')
+         .populate({
+            path: 'education',
+            options})
+
+         .populate({
+            path:'userProfile',
+            options})
+
+         .populate({
+            path:'experiences',
+            options})
+
+         .populate({
+            path:'skills',
+            options})
+
+       //  .populate({
+       //     path:'projects',
+        //    options})
+
+         .populate({
+            path:'volunteering',
+            options})
+
+         .populate({
+            path:'achievements',
+            options})
 
 
       return res.status(201).json({ user: userDetails })
@@ -107,18 +128,21 @@ export const profile = async (req, res, next) => {
 
 //Get All Users
 
-export const getAllUsers = async (req, res, next) => {
-   try {
-      //Get query params
-      const {
-         filter = "{}" } = req.query;
-      //Get all users from Database
-      const allUsers = await User.find(JSON.parse(filter))
+export const getUsers = async (req, res) => {
+ 
 
-      //Return respons
-      res.status(200).json(allUsers)
-   } catch (error) {
-
-      next(error)
+   const email = req.query.email?.toLowerCase()
+   const userName = req.query.userName?.toLowerCase();
+ 
+   const filter = {};
+   if (email) {
+     filter.email = email;
    }
-}
+   if (userName) {
+     filter.userName = userName;
+   }
+ 
+   const users = await User.find(filter);
+ 
+   return res.status(200).json({ users });
+ };
