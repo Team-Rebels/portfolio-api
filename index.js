@@ -10,7 +10,9 @@ import { experienceRouter } from "./routes/experience_route.js";
 import session from 'express-session'
 import MongoStore from "connect-mongo";
 import skillRouter from "./routes/skills_route.js";
+
 import expressOasGenerator from "@mickeymond/express-oas-generator";
+import { projectRouter } from "./routes/project_route.js";
 
 
 
@@ -55,6 +57,9 @@ app.use('/api/v1', AchievementRouter)
 app.use('/api/v1', skillRouter)
 app.use('/api/v1', experienceRouter)
 app.use('/api/v1', volunteeringRouter)
+
+app.use('/api/v1', projectRouter)
+
 
 
 
