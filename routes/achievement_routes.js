@@ -1,26 +1,28 @@
 import { Router } from "express";
-import { getAchievement, oneAchievement, updateAchievement ,deleteAchievement, addAchievement } from "../controllers/achievement_controller";
+import { getUserAchievements, updateAchievement ,deleteAchievement, addAchievement } from "../controllers/achievement_controller.js";
+import { checkUserSession } from "../middlewares/auth.js";
+
 
 
 
 //create Router
-const Router = Router()
+const AchievementRouter = Router()
 
 //define routes
 //add a contact route
-AchievementRouter.post('/achievement', addAchievement)
+AchievementRouter.post('/users/achievement',checkUserSession, addAchievement)
 
 //get route
-AchievementRouter.get('/achievement', getAchievement)
+AchievementRouter.get('/users/get/achievement',checkUserSession, getUserAchievements)
 
-//get by id
-AchievementRouter.get('/achievement/:id', oneAchievement)
+// //get by id
+// AchievementRouter.get('/achievement/:id', oneAchievement)
 
 //update contact
-AchievementRouter.patch('/achievement/:_id', updateAchievement)
+AchievementRouter.patch('/users/achievement/:id', updateAchievement)
 
 //delete contact
-ContactRouter.delete('/achievement/:id',deleteAchievement)
+AchievementRouter.delete('/achievement/:id',deleteAchievement)
 
 
 export default AchievementRouter;

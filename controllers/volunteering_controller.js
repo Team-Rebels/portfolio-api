@@ -1,72 +1,110 @@
-import { VolunteeringModel } from "../models/volunteering_model.js";
-import { volunteeringSchema } from "../models/volunteering_model.js";
+import { Volunteering } from "../models/volunteering_model.js";
+import { volunteeringSchema } from "../schema/volunteering_schema.js"
+import { User } from "../models/user_model.js";
+
+
+
 
 //post volunteering 
-export const addVolunteer = async (req, res, next) => {
- 
+export const createUserVolunteering = async (req, res,next) => {
     try {
-        const {error, value} = volunteeringSchema.validate(req.body)
-        if(error) return res.status (400).send(error.details[0].message)
-        const volunteer = await VolunteeringModel.create(req.body)
-        res.status(201).json(volunteer)
-        
-        
+      const { error, value } = volunteeringSchema.validate(req.body);
+  
+      if (error) {
+        return res.status(400).send(error.details[0].message);
+      }
+  
+      const userSessionId = req.session.user.id;
+  
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const volunteering = await Volunteering.create({
+        ...value,
+        user: userSessionId,
+      });
+  
+      user.volunteering.push(volunteering._id);
+  console.log('not work')
+      await user.save();
+  
+      res.status(201).json({ volunteering });
     } catch (error) {
-        next(error)
-        
+     next(error);
     }
-}
-
+  };
+  
 
 //get all volunteering controller
-export const getVolunteering =async (req, res, next) => {
-    try {const allVolunteering= await VolunteeringModel.find()
-        res.status(201).json(allVolunteering)
-        
-    } catch (error ) {
-        next(error)
-        
+export const getAllUserVolunteerings = async (req, res, next) => {
+    try {
+      //we are fetching Volunteering that belongs to a particular user
+      const userSessionId = req.session.user.id;
+      const allVolunteering = await Volunteering.find({ user: userSessionId });
+      if (allVolunteering.length == 0) {
+        return res.status(404).send("No Volunteering added");
+      }
+      res.status(200).json({ Volunteerings: allVolunteering });
+    } catch (error) {
+      next(error);
     }
-
-}
+  };
     
-//get a single volunteering
-export const oneVolunteering =async (req, res, next) => {
-    try{
-        const aVolunteering = await VolunteeringModel.findById(req.params.id)
-        res.status(201).json(aVolunteering)
-    } catch (error){
-        next (error)
-    }
-}
 
 //update volunteering
-export const updateVolunteering = async (req, res, next) =>{
+export const updateUserVolunteering = async (req, res, next) => {
     try {
-        const {error, value} = volunteeringSchema.validate(req.body)
-        if(error) return res.status (400).send(error.details[0].message)
-        const volunteeringData = await VolunteeringModel.findByIdAndUpdate(req.params.id, req.body,{new:true})
-        res.status(201).json('user Data updated')
-     
+      const { error, value } = volunteeringSchema.validate(req.body);
+  
+      if (error) {
+        return res.status(400).send(error.details[0].message);
+      }
+  
+      const userSessionId = req.session.user.id;
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const volunteering = await Volunteering.findByIdAndUpdate(
+        req.params.id,
+        value,
+        { new: true }
+      );
+      if (!volunteering) {
+        return res.status(404).send("Volunteering not found");
+      }
+  
+      res.status(200).json({ Volunteering });
     } catch (error) {
-        next (error)
-        
+     next(error);
     }
-}
+  };
 
 
 //delete volunteering
-export const deleteVolunteering =async (req, res, next) =>{
-try {
-
-    const volunteeringDeleted =await VolunteeringModel. findByIdAndDelete (req.params.id)
-     res.status(201).json('user deleted')
-     
-} catch (error) {
-    next(error)
-    
-}
-
-}
+export const deleteUserVolunteering = async (req, res,next) => {
+    try {
+      const userSessionId = req.session.user.id;
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const volunteering = await Volunteering.findByIdAndDelete(req.params.id);
+      if (!volunteering) {
+        return res.status(404).send("Volunteering not found");
+      }
+  
+      user.volunteering.pull(req.params.id);
+      await user.save();
+  
+      res.status(200).json("Volunteering deleted");
+    } catch (error) {
+    next(error);
+    }
+  };
 
 

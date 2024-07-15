@@ -11,10 +11,9 @@ export const projectSchema = new Schema({
     date: { type: String },
     link: { type: String },
     image: { type: String },
-    nameOfInstitution: { type: String },
     user: { type: Types.ObjectId, ref: 'User' }
 }
 )
 
 projectSchema.plugin(toJSON)
-export const Project = model('Project', projectSchema)
+export const projects = model('Project', projectSchema)

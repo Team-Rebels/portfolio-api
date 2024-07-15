@@ -1,15 +1,32 @@
 import express from "express";
 import { dbConnection } from "./config/db.js";
+import mongoose from "mongoose";
 import { userRouter } from "./routes/user_route.js";
 import { educationRouter } from "./routes/education_route.js";
 import { userProfileRouter } from "./routes/userprofile_route.js";
+import AchievementRouter from "./routes/achievement_routes.js";
+import { volunteeringRouter } from "./routes/volunteering_routes.js";
+import { experienceRouter } from "./routes/experience_route.js";
 import session from 'express-session'
 import MongoStore from "connect-mongo";
+import skillRouter from "./routes/skills_route.js";
+
+import expressOasGenerator from "@mickeymond/express-oas-generator";
+import { projectRouter } from "./routes/project_route.js";
 
 
 
 //create server
 const app = express();
+expressOasGenerator.handleResponses(app, {
+    alwaysServeDocs: true,
+    tags: [""],
+    mongooseModels: mongoose.modelNames(),
+});
+
+
+
+// connect database
 dbConnection() ;
 
 
@@ -32,9 +49,26 @@ app.use(session({
 
 
 //Use Routes
+
 app.use('/api/v1', userRouter)
 app.use('/api/v1', educationRouter)
 app.use('/api/v1', userProfileRouter)
+app.use('/api/v1', AchievementRouter)
+app.use('/api/v1', skillRouter)
+app.use('/api/v1', experienceRouter)
+app.use('/api/v1', volunteeringRouter)
+
+app.use('/api/v1', projectRouter)
+
+
+
+
+
+expressOasGenerator.handleRequests();
+app.use((req, res) => res.redirect('/api-docs/'));
+
+
+
 
 
 

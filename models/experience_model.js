@@ -1,5 +1,5 @@
 
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import { toJSON } from "@reis/mongoose-to-json";
 
 export const experienceSchema = new Schema({
@@ -9,7 +9,7 @@ export const experienceSchema = new Schema({
     responsibilities: { type: String },
     location: { type: String },
     startDate: { type: String },
-    endDate: { type: string },
+    endDate: { type: String },
     user: { type: Types.ObjectId, ref: 'User' }
 })
 

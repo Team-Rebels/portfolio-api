@@ -1,17 +1,16 @@
 import { Router } from "express";
-import { addEducation, getAllUserEducation, getEducation, UpdateEducation } from "../contollers/education_controller.js";
+import { addEducation, deleteUserEducation, getAllUserEducation, updateUserEducation } from "../controllers/education_controller.js";
+import { checkUserSession } from "../middlewares/auth.js";
+
 
 
  export const educationRouter = Router();
 
-educationRouter.post('/users/education', addEducation);
+educationRouter.post('/users/education',checkUserSession, addEducation);
 
-educationRouter.get('/users/education/:id', getAllUserEducation)
+educationRouter.get('/users/get/education', checkUserSession, getAllUserEducation)
 
-educationRouter.get('/users/education/:id', getEducation)
+educationRouter.patch('/users/education/:id',checkUserSession, updateUserEducation)
 
-
-educationRouter.patch('/users/education/:id', UpdateEducation)
-
-// educationRouter.delete('/users/education/:id', deleteEducation)
+educationRouter.delete('/users/education/:id',checkUserSession, deleteUserEducation)
 
