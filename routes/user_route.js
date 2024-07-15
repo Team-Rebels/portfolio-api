@@ -10,6 +10,6 @@ userRouter.post('/auth/signup', signup)
 userRouter.post('/auth/login', login)
 
 userRouter.get('/auth/logout', checkUserSession, logout)
-userRouter.get('/auth/:userName', checkUserSession, profile)
+userRouter.get('/:userName', profile)
 userRouter.get('/getUsers', getUsers)
 

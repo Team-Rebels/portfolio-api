@@ -12,20 +12,23 @@ export const signup = async (req, res, next) => {
          return res.status(400).send(error.details[0].message)
       }
       const email = value.email
-      console.log('email', email)
       // check if the user exixt 
       const findIfUserExist = await User.findOne({ email })
       if (findIfUserExist) {
-         return res.statu(401).send('User has already signed Up')
+         return res.status(401).send('User has already signed Up')
       } else {
          // hash the password
          value.password = await bcrypt.hash(value.password, 10)
-         res.status(201).json(value)
+         // res.status(201).json(value)
 
          //create a new user
          const user = await User.create(value)
          //Generate a session for the user
          req.session.user = { id: user.id }
+         return res.status(201).json("Registration successful"
+
+
+         )
       }
    } catch (error) {
       next(error)

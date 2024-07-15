@@ -16,7 +16,7 @@ export const userProfilSchema = new Schema({
     twitterLink: { type: String },
     user: { type: Types.ObjectId, ref: 'User' }
 
-})
+},{timestamps:true})
 
 userProfilSchema.plugin(toJSON)
 export const UserProfile = model('UserProfile', userProfilSchema)
