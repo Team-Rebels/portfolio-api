@@ -5,10 +5,11 @@ import { checkUserSession } from "../middlewares/auth.js";
 
 export const userRouter = Router()
 
-userRouter.post('/users/signup', signup)
-userRouter.post('/users/login', login)
 
-userRouter.get('/users/logout', checkUserSession, logout)
-userRouter.get('/users/:userName', checkUserSession, profile)
-userRouter.get('/users/getUsers', getUsers)
+userRouter.post('/auth/signup', signup)
+userRouter.post('/auth/login', login)
+
+userRouter.get('/auth/logout', checkUserSession, logout)
+userRouter.get('/auth/:userName', checkUserSession, profile)
+userRouter.get('/getUsers', getUsers)
 
