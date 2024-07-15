@@ -1,6 +1,7 @@
 import express from "express";
 import { dbConnection } from "./config/db.js";
 import mongoose from "mongoose";
+import cors from "cors"
 import { userRouter } from "./routes/user_route.js";
 import { educationRouter } from "./routes/education_route.js";
 import { userProfileRouter } from "./routes/userprofile_route.js";
@@ -33,6 +34,8 @@ dbConnection() ;
 //middleware
 app.use(express.json());
 // express session authentication
+
+app.use(cors({credentials:true,origin:'*'}))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,

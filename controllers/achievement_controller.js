@@ -5,36 +5,35 @@ import { User } from "../models/user_model.js";
 
 
 //post achievement
-export const addAchievement = async (req, res, next) => {
-
+export const createUserAchievement = async (req, res) => {
     try {
-        const { error, value } = AchievementSchema.validate(req.body)
-        if (error) {
-            return res.status(400).send(error.details[0].message)
-        }
-        // after, find the user with the id that you passed when creating the education 
-
-        const userSessionId = req.session.user.id
-        console.log(req.session.user)
-        const user = await User.findById(userSessionId)
-        if (!user) {
-            return res.status(404).send('User not found')
-        }
-        const achievement = await Achievements.create({ ...value, user: userSessionId })
-        console.log(value, req.session.user)
-        //if you find the user, push the userprofile id you just created inside
-        user.achievements.push(achievement._id);
-
-        //and save the user now with the achievementId
-        await user.save();
-
-        //return the Achievement
-        res.status(201).json({ achievement })
-
+      const { error, value } = AchievementSchema.validate({  
+        ...req.body,
+        image: req.file.filename
+      });
+  
+      if (error) {
+        return res.status(400).send(error.details[0].message);
+      }
+  
+      const userSessionId = req.session.user.id;
+     
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const achievement = await Achievements.create({ ...value, user: userSessionId });
+  
+      user.achievements.push(achievement._id)
+  
+      await user.save();
+  
+      res.status(201).json({ achievement });
     } catch (error) {
-        next(error)
+      console.log(error);
     }
-}
+  };
 
 
 //get all achievements controller
