@@ -7,6 +7,7 @@ import AchievementRouter from "./routes/achievement_routes.js";
 import session from 'express-session'
 import MongoStore from "connect-mongo";
 import skillRouter from "./routes/skills_route.js";
+import { projectRouter } from "./routes/project_route.js";
 
 
 
@@ -39,6 +40,10 @@ app.use('/api/v1', educationRouter)
 app.use('/api/v1', userProfileRouter)
 app.use('/api/v1', AchievementRouter)
 app.use('/api/v1', skillRouter)
+app.use('/api/v1', projectRouter)
+
+
+
 
 
 
