@@ -85,7 +85,7 @@ export const profile = async (req, res, next) => {
 
    try {
 
-      const userName = req.params.userName.toLowerCase()
+      const userName = req.params.userName;
       const options = { sort: { startDate: -1 } }
 
     
