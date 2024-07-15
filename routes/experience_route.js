@@ -7,7 +7,7 @@ import { updateUserEducation } from "../controllers/education_controller.js";
 
  export const experienceRouter = Router();
 
- experienceRouter.post('/users/experience',checkUserSession, addExperience)
- experienceRouter.get('/users/get/experience',checkUserSession,getAllUserExperience)
- experienceRouter.patch('/users/experience/:id',checkUserSession, updateUserExperience)
- experienceRouter.delete('/users/experience/:id',checkUserSession, deleteUserExperience)
+ experienceRouter.post('/experience',checkUserSession, addExperience)
+ experienceRouter.get('/experience',checkUserSession,getAllUserExperience)
+ experienceRouter.patch('/experience/:id',checkUserSession, updateUserExperience)
+ experienceRouter.delete('/experience/:id',checkUserSession, deleteUserExperience)

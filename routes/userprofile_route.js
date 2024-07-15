@@ -6,15 +6,15 @@ import { remoteUpload } from "../middlewares/uploads.js";
 
 
 export const userProfileRouter = Router()
-userProfileRouter.get('/users/get/userprofile', checkUserSession, getProfile)
-userProfileRouter.post('/users/userprofile', remoteUpload.fields([
+userProfileRouter.get('/profile', checkUserSession, getProfile)
+userProfileRouter.post('/profile', remoteUpload.fields([
     { name: "profilePicture", maxCount: 1 },
     { name: "resume", maxCount: 1 },
 ]),
     checkUserSession,
     addUserProfile)
 
-userProfileRouter.patch('/users/userprofile/:id', checkUserSession, updateOneUserProfile)
+userProfileRouter.patch('profile/:id', checkUserSession, updateOneUserProfile)
 
 
 
