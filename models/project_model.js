@@ -12,7 +12,7 @@ export const projectSchema = new Schema({
     link: { type: String },
     image: { type: String },
     user: { type: Types.ObjectId, ref: 'User' }
-}
+},{timestamps:true}
 )
 
 projectSchema.plugin(toJSON)

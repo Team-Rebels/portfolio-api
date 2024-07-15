@@ -11,7 +11,7 @@ import { experienceRouter } from "./routes/experience_route.js";
 import session from 'express-session'
 import MongoStore from "connect-mongo";
 import skillRouter from "./routes/skills_route.js";
-
+import "dotenv/config";
 import expressOasGenerator from "@mickeymond/express-oas-generator";
 import { projectRouter } from "./routes/project_route.js";
 
@@ -21,21 +21,19 @@ import { projectRouter } from "./routes/project_route.js";
 const app = express();
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
-    tags: ["achievement","education","experience","projects","skills","profile","auth","volunteering"],
+    tags: ["achievement", "education", "experience", "projects", "skills", "profile", "auth", "volunteering"],
     mongooseModels: mongoose.modelNames(),
 });
 
 
 
-// connect database
-dbConnection() ;
 
 
 //middleware
 app.use(express.json());
 // express session authentication
 
-app.use(cors({credentials:true,origin:'*'}))
+app.use(cors({ credentials: true, origin: '*' }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -47,8 +45,10 @@ app.use(session({
 }))
 
 
-
-
+//to create a functin to wake  render after 13mins
+app.get("/api/v1/health", (req, res) => {
+    res.json({ status: "UP" });
+});
 
 
 //Use Routes
@@ -91,6 +91,22 @@ app.use((req, res) => res.redirect('/api-docs/'));
 
 
 const port = process.env.PORT || 9090
+
+// connect database
+dbConnection()
+    // .then(() => {
+    //     app.listen(port, () => {
+    //         reboot().then(() => {
+    //             console.log(`Server Restarted`);
+    //         });
+    //         console.log(`Server is connected to Port ${port}`);
+    //     });
+    // })
+    // .catch((err) => {
+    //     console.log(err);
+    //     process.exit(-1);
+    // });;
+
 
 //listen to port
 app.listen(port, () => {
