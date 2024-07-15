@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 
 //create database
-const connectionString = process.env.mongo_url
+const connectionString = process.env.MONGO_URL
 
 
 //connect database
