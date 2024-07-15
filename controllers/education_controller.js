@@ -54,58 +54,58 @@ export const getAllUserEducation = async (req, res, next) => {
     }
 
 }
-// //Get a User Education
-// export const getEducation = async (req, res) => {
-//     try {
-//         const user = await User.findById(req.parms.id)
-//         .populate('education');
-//         if (!user) {
-//             return res.status(404).send('User not found');
-//         }
+//update user Education
 
-//         const Educations = await Education.find({ user: user._id });
-//         if (!Educations) {
-//             return res.status(404).send('No Education found')
-//         }
-//         res.status(200).json(profile)
-//     } catch (error) {
-//         return res.status(500).send(error.message)
-//     }
-// }
-
-
-//update  Education
-// export const UpdateEducation = async (req, res, next) => {
-//     try {
-
-//         const user = await User.findById(req.params.id)
-//         .populate('education');
-//         if (!user) {
-//             return res.status(404).send('User not found');
-//         }
-//         const educationId = req.params.educationId
-//         const updatedData = await Education.findByIdAndUpdate(educationId, req.body, {new:true})
-//         if (!Education) {
-//             return res.status(404).send('No Education found')
-//         }
-//         res.status(200).json(updatedData)
-//     } catch (error) {
-//         next(error)
-//     }
-// }
+export const updateUserEducation = async (req, res, next) => {
+    try {
+      const { error, value } = educationSchema.validate(req.body);
+  
+      if (error) {
+        return res.status(400).send(error.details[0].message);
+      }
+  
+      const userSessionId = req.session.user.id; 
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const Educations = await Education.findByIdAndUpdate(req.params.id, value, { new: true });
+        if (!Education) {
+            return res.status(404).send("Education not found");
+        }
+  
+      res.status(201).json({ Educations });
+    } catch (error) {
+      next(error)
+    }
+  };
 
 
+//Delete Uuser Education
 
-
-
-export const updateOneEducation = async (req, res) => {
-
-   
-    const alleducation = await Education.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        return res.status(200).json(alleducation)
-
-
-}
+export const deleteUserEducation = async (req, res) => {
+    try {
+     
+  
+      const userSessionId = req.session.user.id; 
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const education = await Education.findByIdAndDelete(req.params.id);
+        if (!education) {
+            return res.status(404).send("Education not found");
+        }
+  
+        user.education.pull(req.params.id);
+        await user.save();
+      res.status(200).json("Education deleted");
+    } catch (error) {
+      return res.status(500).json({error})
+    }
+  };
 
 
 

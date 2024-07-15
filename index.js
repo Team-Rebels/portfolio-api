@@ -5,6 +5,7 @@ import { userRouter } from "./routes/user_route.js";
 import { educationRouter } from "./routes/education_route.js";
 import { userProfileRouter } from "./routes/userprofile_route.js";
 import AchievementRouter from "./routes/achievement_routes.js";
+import { volunteeringRouter } from "./routes/volunteering_routes.js";
 import { experienceRouter } from "./routes/experience_route.js";
 import session from 'express-session'
 import MongoStore from "connect-mongo";
@@ -53,6 +54,8 @@ app.use('/api/v1', userProfileRouter)
 app.use('/api/v1', AchievementRouter)
 app.use('/api/v1', skillRouter)
 app.use('/api/v1', experienceRouter)
+app.use('/api/v1', volunteeringRouter)
+
 
 
 

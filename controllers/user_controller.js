@@ -23,9 +23,9 @@ export const signup = async (req, res, next) => {
          res.status(201).json(value)
 
          //create a new user
-        const user = await User.create(value)
-        //Generate a session for the user
-        req.session.user = { id: user.id }
+         const user = await User.create(value)
+         //Generate a session for the user
+         req.session.user = { id: user.id }
       }
    } catch (error) {
       next(error)
@@ -64,61 +64,61 @@ export const login = async (req, res, next) => {
    }
 }
 //Users Logout
-  export const logout = async (req, res, next) => {
+export const logout = async (req, res, next) => {
    try {
-     //Destroy user session
-     await req.session.destroy();
-     //Return response
-     res.status(200).json('User Logged out')
+      //Destroy user session
+      await req.session.destroy();
+      //Return response
+      res.status(200).json('User Logged out')
    } catch (error) {
-     next(error)
+      next(error)
    }
-  };
+};
 
 
 
 export const profile = async (req, res, next) => {
 
- try {
-      
-     const userName = req.params.userName
-  
-     //get user based on the user id
-     //use the select to exclude the password
-     //use populate to populate the education
-     const userDetails = await User.find({userName})
-     .select('-password')
-     .populate('education')
-     .populate('userProfile')
-     .populate('experiences')
-      .populate('skills')
-   //   .populate('volunteering')
-     .populate('achievements')
-     
-        
-     return res.status(201).json({user: userDetails})
- } catch (error) {
-   next(error);
- }
-   
+   try {
+
+      const userName = req.params.userName
+
+      //get user based on the user id
+      //use the select to exclude the password
+      //use populate to populate the education
+      const userDetails = await User.find({ userName })
+         .select('-password')
+         .populate('education')
+         .populate('userProfile')
+         .populate('experiences')
+         .populate('skills')
+         .populate('volunteering')
+         .populate('achievements')
+
+
+      return res.status(201).json({ user: userDetails })
+   } catch (error) {
+      next(error);
+   }
+
 };
-  
- 
+
+
 
 //Get All Users
 
 export const getAllUsers = async (req, res, next) => {
    try {
-       //Get query params
-       const {
-           filter = "{}"} = req.query;
-       //Get all users from Database
-       const allUsers = await User.find(JSON.parse(filter))
-           
-       //Return respons
-       res.status(200).json(allUsers)
+      //Get query params
+      const {
+         filter = "{}" } = req.query;
+      //Get all users from Database
+      const allUsers = await User.find(JSON.parse(filter))
+
+      //Return respons
+      res.status(200).json(allUsers)
    } catch (error) {
 
-       next(error)
+      next(error)
    }
 }

@@ -8,26 +8,26 @@ import { User } from "../models/user_model.js";
 export const addUserProfile = async (req, res, next) => {
 
     try {
-        
-        const { error, value } = profileSchema.validate(req.body)
+
+        const { error, value } = profileSchema.validate({
+            ...req.body,
+            profilePicture: req.files.profilePicture[0].filename,
+            resume: req.files.resume[0].filename,
+        });
+
         if (error) {
             return res.status(400).send(error.details[0].message)
         }
         console.log("yess Boss")
 
-        //after, find the user with the id that you passed when creating the education 
-
         const userSessionId = req.session.user.id
+
         const user = await User.findById(userSessionId)
         if (!user) {
             return res.status(404).send('User not found')
         }
-        const profile = await UserProfile.create({
-            ...value,
-            user: userSessionId,
-            // profilePicture: req.file.filename,
-        
-        })
+
+        const profile = await UserProfile.create({ ...value, user: userSessionId})
 
         //if you find the user, push the userprofile id you just created inside
         user.userProfile = profile._id;
