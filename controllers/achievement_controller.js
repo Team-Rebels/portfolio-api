@@ -53,27 +53,36 @@ export const getUserAchievements = async (req, res, next) => {
 
 }
 
-// //get a single  achievement
-// export const oneAchievement = async (req, res, next) => {
-//     try {
-//         const aAchievement = await Achievements.findById(req.params.id)
-//         res.status(201).json(aAchievement)
-//     } catch (error) {
-//         next(error)
-//     }
-// }
+
 
 //update achievement
-export const updateAchievement = async (req, res, next) => {
-    try {
+export const updateUserAchievement = async (req, res, next) => {
+  try {
+    const { error, value } = AchievementSchema.validate({  
+      ...req.body,
+      image: req.file.filename});
 
-        const updatedAchievement = await Achievements.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        return res.status(200).json(updatedAchievement)
-    } catch (error) {
-        next(error)
+
+    if (error) {
+      return res.status(400).send(error.details[0].message);
     }
-}
 
+    const userSessionId = req.session.user.id; 
+    const user = await User.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const achievement = await Achievements.findByIdAndUpdate(req.params.id, value, { new: true });
+      if (!achievement) {
+          return res.status(404).send("Achievement not found");
+      }
+
+    res.status(200).json({ achievement });
+  } catch (error) {
+    next(error)
+  }
+};
 
 //delete achievement
 export const deleteAchievement = async (req, res, next) => {

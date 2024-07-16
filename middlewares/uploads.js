@@ -3,20 +3,18 @@ import { multerSaveFilesOrg } from "multer-savefilesorg";
 
 
 
-export const remoteUpload = multer ({
+export const achievementUploads = multer ({
     storage: multerSaveFilesOrg({
         apiAccessToken: process.env.SAVEFILESORG_API_KEY,
-        relativePath: '/portfolio/*'    
+        relativePath: '/achievements_img/*'    
     })
 })
 
 
 
-
-
-// export const resumeUploads = multer({
-//     storage: multerSaveFilesOrg({
-//         apiAccessToken: process.env.SAVEFILESORG_API_KEY,
-//         relativePath: '/portfolio_img/resumes/*',
-//     })
-// })
+export const remoteUploads = multer({
+    storage: multerSaveFilesOrg({
+        apiAccessToken: process.env.SAVEFILESORG_API_KEY,
+        relativePath: '/portfolio/*',
+    })
+})

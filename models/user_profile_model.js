@@ -9,14 +9,13 @@ export const userProfilSchema = new Schema({
     sex: { type: String, enum: ['male', 'female', 'prefer-not-to-say'] },
     bio: { type: String },
     contact: { type: String },
-    resume: { type: String },
-    // languages: [{ type: String }],
+    resume: { type: String }, 
     githublink: { type: String },
     linkedinLink: { type: String },
     twitterLink: { type: String },
     user: { type: Types.ObjectId, ref: 'User' }
 
 },{timestamps:true})
-
+//languages: [{ type: String }],
 userProfilSchema.plugin(toJSON)
 export const UserProfile = model('UserProfile', userProfilSchema)

@@ -117,7 +117,7 @@ export const profile = async (req, res, next) => {
 
          .populate({
             path:'achievements',
-            options:{ sort: { Date: -1 } }})
+            options:{ sort: { date: -1 } }})
 
 
       return res.status(201).json({ user: userDetails })

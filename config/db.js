@@ -7,9 +7,13 @@ const connectionString = process.env.MONGO_URL
 
 
 //connect database
-export const dbConnection = () => {
-    mongoose.connect(connectionString).then(() => {
-        console.log('database is connected')
-    }
-    )
+export const dbConnection = async (next) => {
+   try {
+     mongoose.connect(connectionString).then(() => {
+         console.log('database is connected')
+     }
+     )
+   } catch (error) {
+    next(error)
+   }
 }

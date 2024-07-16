@@ -5,62 +5,78 @@ import { User } from "../models/user_model.js";
 
 
 // create a profile 
-export const addUserProfile = async (req, res, next) => {
 
+
+export const createUserProfile = async (req, res) => {
     try {
-
-        const { error, value } = profileSchema.validate({
-            ...req.body,
-            profilePicture: req.files.profilePicture[0].filename,
-            resume: req.files.resume[0].filename,
-        });
-
-        if (error) {
-            return res.status(400).send(error.details[0].message)
-        }
-        console.log("yess Boss")
-
-        const userSessionId = req.session.user.id
-
-        const user = await User.findById(userSessionId)
-        if (!user) {
-            return res.status(404).send('User not found')
-        }
-
-        const profile = await UserProfile.create({ ...value, user: userSessionId})
-
-        //if you find the user, push the userprofile id you just created inside
-        user.userProfile = profile._id;
-
-        //and save the user now with the educationId
-        await user.save();
-
-        //return the education
-        res.status(201).json({ profile })
-
+      const { error, value } = profileSchema.validate({
+        ...req.body,
+        profilePicture: req.files.profilePicture[0].filename,
+        resume: req.files.resume[0].filename,
+      });
+  
+      if (error) {
+        return res.status(400).send(error.details[0].message);
+      }
+  
+      const userSessionId = req.session.user.id;
+     
+  
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const profile = await UserProfile.create({ ...value, user: userSessionId });
+  
+      user.userProfile = profile._id;
+  
+      await user.save();
+  
+      res.status(201).json({ profile });
     } catch (error) {
-        next(error)
+      console.log(error);
     }
-}
+  };
+
+
+
+  //update User Profile 
+  export const updateUserProfile = async (req, res) => {
+    try {
+      const { error, value } = profileSchema.validate({
+        ...req.body,
+        profilePicture: req.files.profilePicture[0].filename,
+        resume: req.files.resume[0].filename,
+      });
+  
+      if (error) {
+        return res.status(400).send(error.details[0].message);
+      }
+  
+      const userSessionId = req.session.user.id; 
+      const user = await User.findById(userSessionId);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+  
+      const profile = await UserProfile.findByIdAndUpdate(req.params.id, value, { new: true });
+        if (!profile) {
+            return res.status(404).send("Profile not found");
+        }
+  
+      res.status(201).json({ profile });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+
 
 //Get a profiles
-// export const getProfile = async (req, res) => {
-//     try {
-//         const user = await User.findById(req.parms.id)
-//         .populate('userProfile');
-//         if (!user) {
-//             return res.status(404).send('User not found');
-//         }
-
-//         const profile = await UserProfile.find({ user: user._id });
-//         if (!profile) {
-//             return res.status(404).send('No profile found')
-//         }
-//         res.status(200).json(profile)
-//     } catch (error) {
-//         return res.status(500).send(error.message)
-//     }
-// }
 
 export const getProfile = async (req, res, next) => {
 
@@ -78,12 +94,3 @@ export const getProfile = async (req, res, next) => {
 
 }
 
-//update user
-export const updateOneUserProfile = async (req, res) => {
-
-
-    const profile = await UserProfile.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    return res.status(200).json(profile)
-
-
-}
