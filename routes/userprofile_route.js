@@ -12,7 +12,7 @@ userProfileRouter.get('/user/userprofile', checkUserSession, getProfile)
 
 
 
-userProfileRouter.post("/userProfile", remoteUploads.fields([
+userProfileRouter.post("/user/userProfile", remoteUploads.fields([
     { name: "profilePicture", maxCount: 1 },
     { name: "resume", maxCount: 1 },
 ]),
@@ -22,7 +22,7 @@ userProfileRouter.post("/userProfile", remoteUploads.fields([
 
 
 
-userProfileRouter.patch("/userProfile/:id",remoteUploads.fields([
+userProfileRouter.patch("/user/userProfile/:id",remoteUploads.fields([
       { name: "profilePicture", maxCount: 1 },
       { name: "resume", maxCount: 1 },
     ]),

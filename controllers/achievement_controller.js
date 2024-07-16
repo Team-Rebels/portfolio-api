@@ -16,7 +16,8 @@ export const createUserAchievement = async (req, res) => {
         return res.status(400).send(error.details[0].message);
       }
   
-      const userSessionId = req.session.user.id;
+      const userSessionId  = req.session?.user?.id || req?.user?.id;
+      
      
       const user = await User.findById(userSessionId);
       if (!user) {
@@ -41,7 +42,7 @@ export const getUserAchievements = async (req, res, next) => {
 
     try {
         //we are fetching achievements that belongs to a particular user
-        const userSessionId = req.session.user.id
+        const userSessionId  = req.session?.user?.id || req?.user?.id;
         const allachievements = await Achievements.find({ user: userSessionId });
         if (allachievements.length == 0) {
             return res.status(404).send('No achievement added')
@@ -67,7 +68,7 @@ export const updateUserAchievement = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const userSessionId = req.session.user.id; 
+    const userSessionId  = req.session?.user?.id || req?.user?.id; 
     const user = await User.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");

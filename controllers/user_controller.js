@@ -1,6 +1,8 @@
 import { User } from "../models/user_model.js";
 import { userSchema } from "../schema/user.js";
 import * as bcrypt from 'bcrypt'
+import jwt from "jsonwebtoken"
+
 
 
 // controls for signup 
@@ -50,20 +52,58 @@ export const login = async (req, res, next) => {
       if (!user) {
          res.status(401).json('User Not Found');
       }
-       //else {
-      //    //verify their password
-      //    const correctPassword = bcrypt.compareSync(password, user.password);
-      //    if (!correctPassword) {
-      //       res.status(401).json('Invalid credential');
-      //    } 
-   else {
+      else {
+         //verify their password
+         const correctPassword = bcrypt.compareSync(password, user.password);
+         if (!correctPassword) {
+            res.status(401).json('Invalid credential');
+         }
+         else {
             //Generate a session for the user
             req.session.user = { id: user.id }
             //Return a response
             res.status(200).json('User Logged in Successfully');
          }
-      
+
+      }
    } catch (error) {
+      next(error)
+   }
+}
+
+
+export const token = async (req, res, next) => {
+   try {
+      //disstruturing 
+      const { email, userName, password } = req.body
+      const user = await User.findOne({
+         $or: [
+            { email: email },
+            { userName: userName }
+         ]
+
+      });
+      if (!user) {
+         res.status(401).json('User Not Found');
+      }
+      else {
+         //verify their password
+         const correctPassword = bcrypt.compareSync(password, user.password);
+         if (!correctPassword) {
+            res.status(401).json('Invalid credential');
+         } 
+      else {
+         //Generate a token for the user
+         const token = jwt.sign(
+            { id: user.id },
+             process.env.JWT_PRIVATE_KEY,
+            {expiresIn:'1h'})
+         //Return a response
+         res.status(200).json({message: 'User logged in', accessToken: token});
+      }
+   
+   }
+} catch (error) {
       next(error)
    }
 }
@@ -88,36 +128,42 @@ export const profile = async (req, res, next) => {
       const userName = req.params.userName;
       const options = { sort: { startDate: -1 } }
 
-    
+
       const userDetails = await User.find({ userName })
          .select('-password')
          .populate({
             path: 'education',
-            options})
+            options
+         })
 
          .populate({
-            path:'userProfile',
-            options})
+            path: 'userProfile',
+            options
+         })
 
          .populate({
-            path:'experiences',
-            options})
+            path: 'experiences',
+            options
+         })
 
          .populate({
-            path:'skills',
-            options})
+            path: 'skills',
+            options
+         })
 
-       //  .populate({
-       //     path:'projects',
-        //    options})
-
-         .populate({
-            path:'volunteering',
-            options})
+         //  .populate({
+         //     path:'projects',
+         //    options})
 
          .populate({
-            path:'achievements',
-            options:{ sort: { date: -1 } }})
+            path: 'volunteering',
+            options
+         })
+
+         .populate({
+            path: 'achievements',
+            options: { sort: { date: -1 } }
+         })
 
 
       return res.status(201).json({ user: userDetails })
@@ -132,20 +178,20 @@ export const profile = async (req, res, next) => {
 //Get All Users
 
 export const getUsers = async (req, res) => {
- 
+
 
    const email = req.query.email?.toLowerCase()
    const userName = req.query.userName?.toLowerCase();
- 
+
    const filter = {};
    if (email) {
-     filter.email = email;
+      filter.email = email;
    }
    if (userName) {
-     filter.userName = userName;
+      filter.userName = userName;
    }
- 
+
    const users = await User.find(filter);
- 
+
    return res.status(200).json({ users });
- };
+};
