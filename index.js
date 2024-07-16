@@ -73,7 +73,7 @@ app.use((req, res) => res.redirect('/api-docs/'));
 
 
 const reboot = async () => {
-    setInterval(restartServer, process.env.INTERVAL)//Remember to go and set the interval in the .env file before this will work
+    setInterval(restartServer, process.env.INTERVAL)
     }
 
 
@@ -97,20 +97,20 @@ const PORT = process.env.PORT || 9090
 
 // connect database
 dbConnection()
-//   .then(() => {
-//     app.listen(PORT, () => {
-//         reboot().then(() => {
-//         console.log(`Server Restarted`);
-//       });
-//       console.log(`Server is connected to Port ${PORT}`);
-//     });
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//     process.exit(-1);
-//   });
+  .then(() => {
+    app.listen(PORT, () => {
+        reboot().then(() => {
+        console.log(`Server Restarted`);
+      });
+      console.log(`Server is connected to Port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    process.exit(-1);
+  });
 
 //listen to port
-app.listen(PORT, () => {
-    console.log (`app is listening on port ${PORT}`)
-})
+// app.listen(PORT, () => {
+//     console.log (`app is listening on port ${PORT}`)
+// })
