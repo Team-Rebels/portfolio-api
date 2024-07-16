@@ -15,7 +15,7 @@ export const addExperience = async (req, res, next) => {
             return res.status(400).send(error.details[0].message)
         }
          //after, find the user with the id that you passed when creating the education
-        const userSessionId = req.session.user.id
+         const userSessionId  = req.session?.user?.id || req?.user?.id;
 
         const user = await User.findById(userSessionId);
         if (!user) {
@@ -44,7 +44,7 @@ export const addExperience = async (req, res, next) => {
 export const getAllUserExperience = async (req, res) => {
     try {
       //we are fetching Experience that belongs to a particular user
-      const userSessionId = req.session.user.id
+      const userSessionId  = req.session?.user?.id || req?.user?.id;
       const allExperience = await Experience.find({ user: userSessionId });
       if (allExperience.length == 0) {
         return res.status(404).send("No Experience added");
@@ -66,7 +66,7 @@ export const updateUserExperience = async (req, res,next) => {
         return res.status(400).send(error.details[0].message);
       }
   
-      const userSessionId = req.session.user.id; 
+      const userSessionId  = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userSessionId);
       if (!user) {
         return res.status(404).send("User not found");
@@ -88,7 +88,7 @@ export const updateUserExperience = async (req, res,next) => {
     try {
      
   
-      const userSessionId = req.session.user.id; 
+      const userSessionId  = req.session?.user?.id || req?.user?.id; 
       const user = await User.findById(userSessionId);
       if (!user) {
         return res.status(404).send("User not found");
