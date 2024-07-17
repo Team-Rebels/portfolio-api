@@ -6,10 +6,10 @@ import { checkUserSession } from "../middlewares/auth.js";
 export const userRouter = Router()
 
 
-userRouter.post('/auth/signup', signup)
-userRouter.post('/auth/session/login', login)
-userRouter.post('/auth/token/login', token)
-userRouter.get('/auth/logout', checkUserSession, logout)
-userRouter.get('/:userName', profile)
-userRouter.get('/getUsers', getUsers)
+userRouter.post('/users/auth/signup', signup)
+userRouter.post('/users/auth/session/login', login)
+userRouter.post('/users/auth/token/login', token)
+userRouter.get('/users/auth/logout', checkUserSession, logout)
+userRouter.get('/users/:userName', profile)
+userRouter.get('/users/getUsers', getUsers)
 

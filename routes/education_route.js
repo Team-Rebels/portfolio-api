@@ -6,11 +6,11 @@ import { checkUserSession } from "../middlewares/auth.js";
 
  export const educationRouter = Router();
 
-educationRouter.post('/education',checkUserSession, addEducation);
+educationRouter.post('/users/education',checkUserSession, addEducation);
 
-educationRouter.get('/get/education', checkUserSession, getAllUserEducation)
+educationRouter.get('/users/education', checkUserSession, getAllUserEducation)
 
-educationRouter.patch('/education/:id',checkUserSession, updateUserEducation)
+educationRouter.patch('/users/education/:id',checkUserSession, updateUserEducation)
 
-educationRouter.delete('/education/:id',checkUserSession, deleteUserEducation)
+educationRouter.delete('/users/education/:id',checkUserSession, deleteUserEducation)
 

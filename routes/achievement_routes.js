@@ -10,17 +10,17 @@ const AchievementRouter = Router()
 
 //define routes
 //add a contact route
-AchievementRouter.post('/achievement',achievementUploads.single('image'),checkUserSession,createUserAchievement)
+AchievementRouter.post('/users/achievement',achievementUploads.single('image'),checkUserSession,createUserAchievement)
 
 // //get route
- AchievementRouter.get('/user/achievement',checkUserSession, getUserAchievements)
+ AchievementRouter.get('/users/achievement',checkUserSession, getUserAchievements)
 
 
 // //update contact
- AchievementRouter.patch('/achievement/:id',achievementUploads.single('image'), updateUserAchievement)
+ AchievementRouter.patch('/users/achievement/:id',achievementUploads.single('image'), updateUserAchievement)
 
 // //delete contact
- AchievementRouter.delete('/achievement/:id',deleteAchievement)
+ AchievementRouter.delete('/users/achievement/:id',deleteAchievement)
 
 
 export default AchievementRouter;
