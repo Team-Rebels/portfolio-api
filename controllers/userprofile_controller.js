@@ -81,10 +81,10 @@ export const createUserProfile = async (req, res) => {
 export const getProfile = async (req, res, next) => {
 
     try {
-        //we are fetching education that belongs to a particular user
+        //we are fetching profile that belongs to a particular user
         const userId = req.session?.user?.id || req?.user?.id;
-        const profile = await UserProfile.findById({ user: userId });
-        if (profile.length == 0) {
+        const profile = await UserProfile.findOne({ user: userId });
+        if (!profile) {
             return res.status(404).send('No Profile added')
         }
         res.status(200).json({ userProfile: profile })
