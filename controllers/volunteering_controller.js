@@ -42,8 +42,8 @@ export const getAllUserVolunteerings = async (req, res, next) => {
     try {
       //we are fetching Volunteering that belongs to a particular user
       const userSessionId  = req.session?.user?.id || req?.user?.id;
-      const allVolunteering = await Volunteering.find({ user: userSessionId });
-      if (allVolunteering.length == 0) {
+      const allVolunteering = await Volunteering.findOne({ user: userSessionId });
+      if (!allVolunteering) {
         return res.status(404).send("No Volunteering added");
       }
       res.status(200).json({ Volunteerings: allVolunteering });

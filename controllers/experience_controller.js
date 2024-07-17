@@ -8,7 +8,6 @@ import { User } from "../models/user_model.js";
 //post experience       
 export const addExperience = async (req, res, next) => {
 
-    console.log('yess Boss')
     try {
         const { error, value } = experienceSchema.validate(req.body)
         if (error) {
@@ -45,8 +44,8 @@ export const getAllUserExperience = async (req, res) => {
     try {
       //we are fetching Experience that belongs to a particular user
       const userSessionId  = req.session?.user?.id || req?.user?.id;
-      const allExperience = await Experience.find({ user: userSessionId });
-      if (allExperience.length == 0) {
+      const allExperience = await Experience.findOne({ user: userSessionId });
+      if (!allExperience) {
         return res.status(404).send("No Experience added");
       }
       res.status(200).json({ Experience: allExperience });
