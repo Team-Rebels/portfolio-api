@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
 
-
-
 export const checkUserSession = (req, res, next) =>{
     if (req.session.user){
         next();
