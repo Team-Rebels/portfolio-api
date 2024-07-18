@@ -1,6 +1,7 @@
 import { Skills} from "../models/skills_models.js";
 import { skillSchema } from "../schema/skills_schema.js";
 import { User } from "../models/user_model.js";
+import { all } from "axios";
 
 
 
@@ -55,7 +56,7 @@ export const getAllUserSkills = async (req, res, next) => {
         const userSessionId  = req.session?.user?.id || req?.user?.id;
         const allSkills = await Skills.findOne({ user: userSessionId });
         if (!allSkills) {
-            return res.status(404).send('No Skills added')
+            return res.status(404).send(allSkills)
         }
         res.status(200).json({ skills: allSkills })
     } catch (error) {

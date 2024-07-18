@@ -45,7 +45,7 @@ export const getUserAchievements = async (req, res, next) => {
         const userSessionId  = req.session?.user?.id || req?.user?.id;
         const allachievements = await Achievements.find({ user: userSessionId });
         if (allachievements.length == 0) {
-            return res.status(404).send('No achievement added')
+            return res.status(404).send(allachievements)
         }
         res.status(200).json({ achievements: allachievements })
     } catch (error) {

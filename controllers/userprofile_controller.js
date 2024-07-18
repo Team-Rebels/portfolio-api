@@ -26,7 +26,7 @@ export const createUserProfile = async (req, res) => {
       if (!user) {
         return res.status(404).send("User not found");
       }
-      
+
   
       const profile = await UserProfile.create({ ...value, user: userId });
   
@@ -86,7 +86,7 @@ export const getProfile = async (req, res, next) => {
         const userId = req.session?.user?.id || req?.user?.id;
         const profile = await UserProfile.findOne({ user: userId });
         if (!profile) {
-            return res.status(404).send('No Profile added')
+            return res.status(404).send(profile)
         }
         res.status(200).json({ userProfile: profile })
     } catch (error) {

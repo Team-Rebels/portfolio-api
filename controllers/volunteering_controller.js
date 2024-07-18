@@ -44,7 +44,7 @@ export const getAllUserVolunteerings = async (req, res, next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const allVolunteering = await Volunteering.findOne({ user: userSessionId });
       if (!allVolunteering) {
-        return res.status(404).send("No Volunteering added");
+        return res.status(404).send(allVolunteering);
       }
       res.status(200).json({ Volunteerings: allVolunteering });
     } catch (error) {
