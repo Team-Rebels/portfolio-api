@@ -45,7 +45,7 @@ export const getAllUserEducation = async (req, res, next) => {
         const userSessionId  = req.session?.user?.id || req?.user?.id;
         const alleducation = await Education.find({ user: userSessionId });
     if(alleducation.length == 0){
-        return res.status(404).send(alleducation)
+        return res.status(404).send({message:'No education found', alleducation})
     }
     res.status(200).json({education:alleducation})
     } catch (error) {
@@ -66,15 +66,15 @@ export const updateUserEducation = async (req, res, next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userSessionId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
   
       const Educations = await Education.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!Education) {
-            return res.status(404).send("Education not found");
+            return res.status(404).send({message:"Education not found"});
         }
   
-      res.status(201).json({ Educations });
+      res.status(201).json({message: 'Education updated', Educations });
     } catch (error) {
       next(error)
     }
@@ -90,17 +90,17 @@ export const deleteUserEducation = async (req, res) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userSessionId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
   
       const education = await Education.findByIdAndDelete(req.params.id);
         if (!education) {
-            return res.status(404).send("Education not found");
+            return res.status(404).send({message:"Education not found"});
         }
   
         user.education.pull(req.params.id);
         await user.save();
-      res.status(200).json("Education deleted");
+      res.status(200).json({message:"Education deleted"});
     } catch (error) {
       return res.status(500).json({error})
     }

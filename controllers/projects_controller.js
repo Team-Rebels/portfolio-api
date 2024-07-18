@@ -18,7 +18,7 @@ import { Projects } from "../models/project_model.js";
         const userSessionId  = req.session?.user?.id || req?.user?.id;
         const user = await User.findById(userSessionId);
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(404).send({message:"User not found"});
  
         }
   //Extract the name from the session 
@@ -35,7 +35,7 @@ import { Projects } from "../models/project_model.js";
 
         //and save the user now with the educationId
         await user.save();
-        res.status(201).json(projects)
+        res.status(201).json({message:'Project created', projects})
 
 
     } catch (error) {
@@ -52,7 +52,7 @@ export const getAllUserProject = async (req, res, next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const allProject = await Projects.find({ user: userSessionId });
       if (!allProject) {
-          return res.status(404).send(allProject)
+          return res.status(404).send({message:'No project found', allProject})
       }
       res.status(200).json({ projects: allProject })
   } catch (error) {
@@ -76,12 +76,12 @@ export const updateUserProject = async (req, res,next) => {
     const userSessionId  = req.session?.user?.id || req?.user?.id;
     const user = await User.findById(userSessionId);
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).send({message: "User not found"});
     }
 
     const project = await Projects.findByIdAndUpdate(req.params.id, value, { new: true });
       if (!project) {
-          return res.status(404).send("Project not found");
+          return res.status(404).send({message:"Project not found"});
       }
 
     res.status(200).json({ project });
@@ -98,17 +98,17 @@ export const deleteUserProject = async (req, res,next) => {
     const userSessionId  = req.session?.user?.id || req?.user?.id; 
     const user = await User.findById(userSessionId);
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).send({message:"User not found"});
     }
 
     const project = await Projects.findByIdAndDelete(req.params.id);
       if (!project) {
-          return res.status(404).send("Project not found");
+          return res.status(404).send({message:"Project not found",project});
       }
 
       user.projects.pull(req.params.id);
       await user.save();
-    res.status(200).json("Project deleted");
+    res.status(200).json({message:"Project deleted"});
   } catch (error) {
    next(error)
   }

@@ -24,7 +24,7 @@ export const createUserProfile = async (req, res) => {
   
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
 
   
@@ -58,12 +58,12 @@ export const createUserProfile = async (req, res) => {
       const userId = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
   
       const profile = await UserProfile.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!profile) {
-            return res.status(404).send("Profile not found");
+            return res.status(404).send({message:"Profile not found"});
         }
   
       res.status(201).json({ profile });
@@ -86,7 +86,7 @@ export const getProfile = async (req, res, next) => {
         const userId = req.session?.user?.id || req?.user?.id;
         const profile = await UserProfile.findOne({ user: userId });
         if (!profile) {
-            return res.status(404).send(profile)
+            return res.status(404).send({message:'No profile found',profile})
         }
         res.status(200).json({ userProfile: profile })
     } catch (error) {

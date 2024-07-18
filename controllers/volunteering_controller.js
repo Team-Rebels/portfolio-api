@@ -44,7 +44,7 @@ export const getAllUserVolunteerings = async (req, res, next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const allVolunteering = await Volunteering.findOne({ user: userSessionId });
       if (!allVolunteering) {
-        return res.status(404).send(allVolunteering);
+        return res.status(404).send({message:'No volunteering found', allVolunteering});
       }
       res.status(200).json({ Volunteerings: allVolunteering });
     } catch (error) {
@@ -65,7 +65,7 @@ export const updateUserVolunteering = async (req, res, next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userSessionId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
   
       const volunteering = await Volunteering.findByIdAndUpdate(
@@ -74,10 +74,10 @@ export const updateUserVolunteering = async (req, res, next) => {
         { new: true }
       );
       if (!volunteering) {
-        return res.status(404).send("Volunteering not found");
+        return res.status(404).send({message:"Volunteering not found",volunteering});
       }
   
-      res.status(200).json({ Volunteering });
+      res.status(200).json({message:'Volunteering updated', Volunteering });
     } catch (error) {
      next(error);
     }
@@ -90,18 +90,18 @@ export const deleteUserVolunteering = async (req, res,next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userSessionId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
   
       const volunteering = await Volunteering.findByIdAndDelete(req.params.id);
       if (!volunteering) {
-        return res.status(404).send("Volunteering not found");
+        return res.status(404).send({message:"Volunteering not found"});
       }
   
       user.volunteering.pull(req.params.id);
       await user.save();
   
-      res.status(200).json("Volunteering deleted");
+      res.status(200).json({message:"Volunteering deleted"});
     } catch (error) {
     next(error);
     }
