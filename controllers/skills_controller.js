@@ -55,9 +55,9 @@ export const getAllUserSkills = async (req, res, next) => {
         //we are fetching Skills that belongs to a particular user
         const userSessionId  = req.session?.user?.id || req?.user?.id;
         const allSkills = await Skills.findOne({ user: userSessionId });
-        if (!allSkills) {
-            return res.status(404).send(allSkills)
-        }
+        // if (!allSkills) {
+        //     return res.status(404).send(allSkills)
+        // }
         res.status(200).json({ skills: allSkills })
     } catch (error) {
         next(error)
@@ -79,15 +79,15 @@ export const updateUserSkill = async (req, res,next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       const user = await User.findById(userSessionId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message: "User not found"});
       }
   
       const skill = await Skills.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!skill) {
-            return res.status(404).send("Skill not found");
+            return res.status(404).send({message:"Skill not found"});
         }
   
-      res.status(200).json({ skill });
+      res.status(200).json({message: 'Skill updated', skill });
     } catch (error) {
       next(error)
     }
@@ -104,17 +104,17 @@ export const deleteUserSkill = async (req, res,next) => {
       const userSessionId  = req.session?.user?.id || req?.user?.id; 
       const user = await User.findById(userSessionId);
       if (!user) {
-        return res.status(404).send("User not found");
+        return res.status(404).send({message:"User not found"});
       }
   
       const skill = await Skills.findByIdAndDelete(req.params.id);
         if (!skill) {
-            return res.status(404).send("Skill not found");
+            return res.status(404).send({message:"Skill not found"});
         }
   
         user.skills.pull(req.params.id);
         await user.save();
-      res.status(200).json("Skill deleted");
+      res.status(200).json({message:"Skill deleted"});
     } catch (error) {
      next(error)
     }
