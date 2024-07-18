@@ -33,8 +33,7 @@ expressOasGenerator.handleResponses(app, {
 //middleware
 app.use(express.json());
 // express session authentication
-
-app.use(cors({ credentials: true,  origin: 'http://localhost:5173'}))
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
