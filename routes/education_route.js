@@ -8,7 +8,7 @@ import { checkUserSession } from "../middlewares/auth.js";
 
 educationRouter.post('/users/education',checkUserSession, addEducation);
 
-educationRouter.get('/users/education', checkUserSession, getAllUserEducation)
+educationRouter.get('/users/get/education', checkUserSession, getAllUserEducation)
 
 educationRouter.patch('/users/education/:id',checkUserSession, updateUserEducation)
 

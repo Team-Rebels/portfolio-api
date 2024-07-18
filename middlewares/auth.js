@@ -13,10 +13,10 @@ export const checkUserSession = (req, res, next) =>{
          //Call next function
          next()
        } catch (error) {
-        res.status(401).json(error)
+        res.status(401).json({error: "Token Expired"})
        }
     }
     else{
-        res.status(401).json('no user session')
+        res.status(401).json({error:'Not authenticated'})
     }
     }

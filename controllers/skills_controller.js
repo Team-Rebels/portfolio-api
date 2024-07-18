@@ -17,7 +17,15 @@ export const addSkills = async (req, res, next) => {
         const user = await User.findById(userSessionId);
         if (!user) {
             return res.status(404).send("User not found");
+ 
         }
+  //Extract the name from the session 
+  const {name} =req.body
+  const existingSkill = await Skills.findOne({name:name}, {user:userSessionId});
+  if(existingSkill){
+    return res.status(409).json('The skill already exists for this user')
+  }
+
         //create the suer
         const skills = await Skills.create({ ...value, user: userSessionId })
         //if you find the user, push the education id you just created inside

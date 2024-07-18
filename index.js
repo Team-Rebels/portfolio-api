@@ -33,7 +33,6 @@ expressOasGenerator.handleResponses(app, {
 //middleware
 app.use(express.json());
 // express session authentication
-
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -65,9 +64,6 @@ app.use('/api/v1', volunteeringRouter)
 app.use('/api/v1', projectRouter)
 
 
-
-
-
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
 
@@ -75,22 +71,6 @@ app.use((req, res) => res.redirect('/api-docs/'));
 const reboot = async () => {
     setInterval(restartServer, process.env.INTERVAL)
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const PORT = process.env.PORT || 9090
