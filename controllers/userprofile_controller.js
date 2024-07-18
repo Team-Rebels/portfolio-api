@@ -26,6 +26,7 @@ export const createUserProfile = async (req, res) => {
       if (!user) {
         return res.status(404).send("User not found");
       }
+      
   
       const profile = await UserProfile.create({ ...value, user: userId });
   
