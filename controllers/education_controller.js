@@ -45,7 +45,7 @@ export const getAllUserEducation = async (req, res, next) => {
         const userSessionId  = req.session?.user?.id || req?.user?.id;
         const alleducation = await Education.find({ user: userSessionId });
     if(alleducation.length == 0){
-        return res.status(404).send('No education added')
+        return res.status(404).send(alleducation)
     }
     res.status(200).json({education:alleducation})
     } catch (error) {

@@ -1,7 +1,7 @@
 
 import { projectSchema } from "../schema/projects_schema.js";
 import { User } from "../models/user_model.js";
-import { projects } from "../models/project_model.js";
+import { Projects } from "../models/project_model.js";
 
 
 
@@ -22,14 +22,14 @@ import { projects } from "../models/project_model.js";
  
         }
   //Extract the name from the session 
-  const {name} =req.body
-  const existingProject = await projects.find({name:name}, {user:userSessionId});
-  if(existingSkill){
-    return res.status(409).json('The skill already exists for this user')
-  }
+  // const {name} =req.body
+  // const existingProject = await projects.find({name:name}, {user:userSessionId});
+  // if(existingSkill){
+  //   return res.status(409).json('The skill already exists for this user')
+  // }
 
         //create the suer
-        const projects = await projects.create({ ...value, user: userSessionId })
+        const projects = await Projects.create({ ...value, user: userSessionId })
         //if you find the user, push the education id you just created inside
         user.projects.push(projects._id);
 
@@ -50,9 +50,9 @@ export const getAllUserProject = async (req, res, next) => {
   try {
       //Get UserID from The Session Or Token
       const userSessionId  = req.session?.user?.id || req?.user?.id;
-      const allProject = await projects.find({ user: userSessionId });
+      const allProject = await Projects.find({ user: userSessionId });
       if (!allProject) {
-          return res.status(404).send('No Project added')
+          return res.status(404).send(allProject)
       }
       res.status(200).json({ projects: allProject })
   } catch (error) {
@@ -79,7 +79,7 @@ export const updateUserProject = async (req, res,next) => {
       return res.status(404).send("User not found");
     }
 
-    const project = await projects.findByIdAndUpdate(req.params.id, value, { new: true });
+    const project = await Projects.findByIdAndUpdate(req.params.id, value, { new: true });
       if (!project) {
           return res.status(404).send("Project not found");
       }
@@ -101,7 +101,7 @@ export const deleteUserProject = async (req, res,next) => {
       return res.status(404).send("User not found");
     }
 
-    const project = await projects.findByIdAndDelete(req.params.id);
+    const project = await Projects.findByIdAndDelete(req.params.id);
       if (!project) {
           return res.status(404).send("Project not found");
       }
