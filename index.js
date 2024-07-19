@@ -22,7 +22,7 @@ import { projectRouter } from "./routes/project_route.js";
 const app = express();
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
-    tags: ["achievement", "education", "experience", "projects", "skills", "profile", "auth", "volunteering"],
+    tags: ["achievement", "education", "experience", "project", "skills", "profile", "auth", "volunteering"],
     mongooseModels: mongoose.modelNames(),
 });
 
