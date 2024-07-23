@@ -10,7 +10,7 @@ export const createUserAchievement = async (req, res) => {
     try {
       const { error, value } = AchievementSchema.validate({  
         ...req.body,
-        image: req.file.filename
+        image: req.file?.filename
       });
   
       if (error) {
@@ -19,7 +19,6 @@ export const createUserAchievement = async (req, res) => {
   
       const userSessionId  = req.session?.user?.id || req?.user?.id;
       
-     
       const user = await User.findById(userSessionId);
       if (!user) {
         return res.status(404).send({message:"User not found"});
@@ -62,19 +61,19 @@ export const updateUserAchievement = async (req, res, next) => {
   try {
     const { error, value } = AchievementSchema.validate({  
       ...req.body,
-      image: req.file.filename});
+      image: req.file?.filename});
 
 
     if (error) {
       return res.status(400).send(error.details[0].message);
     }
 
-    const userSessionId  = req.session?.user?.id || req?.user?.id; 
+    const userSessionId  = req.session?.user?.id || req?.user?.id;
+      
     const user = await User.findById(userSessionId);
     if (!user) {
-      return res.status(404).send({message: 'User not found'});
+      return res.status(404).send({message:"User not found"});
     }
-
     const achievement = await Achievements.findByIdAndUpdate(req.params.id, value, { new: true });
       if (!achievement) {
           return res.status(404).send({message:"Achievement not found"});
