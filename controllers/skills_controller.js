@@ -34,7 +34,8 @@ export const addSkills = async (req, res, next) => {
 
         //and save the user now with the educationId
         await user.save();
-        res.status(201).json(skills)
+        res.status(201).json({message:'Skill created', skills})
+        console.log(skills)
 
 
     } catch (error) {
