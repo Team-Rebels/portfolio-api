@@ -70,7 +70,7 @@ export const login = async (req, res, next) => {
    }
 }
 
-
+//login with token
 export const token = async (req, res, next) => {
    try {
       //disstruturing 
@@ -98,7 +98,15 @@ export const token = async (req, res, next) => {
              process.env.JWT_PRIVATE_KEY,
             {expiresIn:'72h'})
          //Return a response
-         res.status(200).json({message: 'User logged in', accessToken: token});
+         res.status(200).json({
+            message: 'User logged in',
+             accessToken: token,
+            user: {
+               firstName: user.firstName,
+               lastName: user.lastName,
+               userName: user.userName
+              
+            }});
       }
    
    }
