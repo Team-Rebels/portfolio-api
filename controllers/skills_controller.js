@@ -1,7 +1,7 @@
 import { Skills} from "../models/skills_models.js";
 import { skillSchema } from "../schema/skills_schema.js";
 import { User } from "../models/user_model.js";
-import { all } from "axios";
+
 
 
 
