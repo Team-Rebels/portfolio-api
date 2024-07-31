@@ -6,8 +6,8 @@ export const volunteeringRouter = Router()
 
 volunteeringRouter.post('/users/volunteering', checkUserSession, createUserVolunteering)
 
-volunteeringRouter.get('/users/volunteering', checkUserSession, getAllUserVolunteerings)
+volunteeringRouter.get('/users/get/volunteering', checkUserSession, getAllUserVolunteerings)
 
 volunteeringRouter.patch('/users/volunteering/:id', checkUserSession, updateUserVolunteering)
 
-volunteeringRouter.delete('/users/volunteering/:id', checkUserSession, deleteUserVolunteering)
+volunteeringRouter.delete('/users/delete/volunteering/:id', checkUserSession, deleteUserVolunteering)
