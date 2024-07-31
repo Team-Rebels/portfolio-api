@@ -7,9 +7,9 @@ import { createUserProject, deleteUserProject, getAllUserProject, updateUserProj
 
 projectRouter.post('/users/project',checkUserSession, createUserProject);
 
- projectRouter.get('/users/project', checkUserSession, getAllUserProject)
+ projectRouter.get('/users/get/project', checkUserSession, getAllUserProject)
 
 projectRouter.patch('/users/project/:id',checkUserSession, updateUserProject)
 
-projectRouter.delete('/users/project/:id',checkUserSession, deleteUserProject)
+projectRouter.delete('/users/delete/project/:id',checkUserSession, deleteUserProject)
 
